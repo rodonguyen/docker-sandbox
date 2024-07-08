@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  smart-api:
+    container_name: backend
+    # image: node:22.4.0
+    build: ./
+    working_dir: /usr/src/smart-brain-api
+    command: npm start
+    environment:
+      POSTGRES_URI: postgres://rodo:secret@postgres:5432/smart-brain
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/smart-brain-api
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: rodo
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: smart-brain
+    build: ./postgres
